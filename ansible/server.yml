@@ -3,4 +3,4 @@
   become: yes
 
 tasks:
-  - import_tasks: .template/docker.yml
+  - import_tasks: .templates/docker.yml
