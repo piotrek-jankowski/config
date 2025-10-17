@@ -2,5 +2,5 @@
   connection: local
   become: yes
 
-tasks:
-  - import_tasks: .templates/docker.yml
+  tasks:
+    - import_tasks: .templates/docker.yml
