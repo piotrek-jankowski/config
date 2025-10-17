@@ -1,4 +1,5 @@
-- name: Install docker
+- name: Remove old Docker packages
+  become: yes
   packages:
     name: "{{ item }}"
     state: absent
@@ -11,4 +12,40 @@
     - containerd
     - runc
 
+- import_tasks: packages-update_cache.yml
+
+- name: Install packages
+  become: yes
+  packages:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ca-certificates
+    - curl
+
+#Only for Ubuntu
+- name: Create keyring dir
+  become: yes
+  file:
+    path: "/etc/apt/keyrings"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Download Docker GPG key
+  become: yes
+  get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: '0644'
+    force: yes
+
+- name: Add Docker repository to apt sources
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable"
+    filename: docker
+    state: present
+    
 - import_tasks: packages-update_cache.yml
