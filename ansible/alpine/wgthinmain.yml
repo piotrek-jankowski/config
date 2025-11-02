@@ -16,3 +16,8 @@
             name: sshd
             state: started
             enabled: true
+        - name: Allow SSH to root
+          ansible.builtin.lineinfile:
+            path: /etc/ssh/sshd_config
+            insertafter: '^# Authentication:$'
+            line: 'PermitRootLogin yes'
