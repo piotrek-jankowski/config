@@ -23,8 +23,21 @@
             src: ~/ThinMain.conf
             dest: /etc/wireguard/wg0.conf
             backup: yes
-        - name: Enable and start WG
-          service:
-            name: wg-quick.wg0
-            state: restarted
-            enabled: true
+        
+        - name: Configure WG service
+          block:
+            - name: Copy OpenRC script to /etc/init.d/
+              copy:
+                src: ./.files/wg-quick.wg0
+                dest: /etc/init.d/
+                mode: '0755'
+                backup: yes
+            - name: Add WG service to default runlevel
+              command: rc-update add wg-quick.wg0 default
+              args:
+                creates: /etc/runlevels/default/wg-quick.wg0
+            - name: Enable and start WG service
+              service:
+                name: wg-quick.wg0
+                state: restarted
+                enabled: true

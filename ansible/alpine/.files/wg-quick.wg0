@@ -1,0 +1,12 @@
+#!/sbin/openrc-run
+
+name="WireGuard wg0 tunnel"
+description="WireGuard wg0 VPN interface"
+
+command="/usr/bin/wg-quick"
+command_args="up wg0"
+pidfile="/var/run/wg-quick.wg0.pid"
+
+depend() {
+    need net
+}
