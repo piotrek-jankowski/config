@@ -11,13 +11,13 @@
           package:
             name: openssh
             state: present
-        - name: Enable and start OpenSSH
-          service:
-            name: sshd
-            state: started
-            enabled: true
         - name: Allow SSH to root
           ansible.builtin.lineinfile:
             path: /etc/ssh/sshd_config
             insertafter: '^# Authentication:$'
             line: 'PermitRootLogin yes'
+        - name: Enable and start OpenSSH
+          service:
+            name: sshd
+            state: started
+            enabled: true
