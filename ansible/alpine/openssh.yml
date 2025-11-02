@@ -4,7 +4,7 @@
 
   tasks:
     - import_tasks: ../.templates/packages-update_cache.yml
-    - name: Update package cache - apk
+    - name: Upgrade package cache - apk
       community.general.apk:
         upgrade: yes
       when: ansible_pkg_mgr == 'apk'
