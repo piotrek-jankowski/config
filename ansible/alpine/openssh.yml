@@ -1,0 +1,28 @@
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+    - import_tasks: ../.templates/packages-update_cache.yml
+    - name: Update package cache - apk
+      community.general.apk:
+        upgrade: yes
+      when: ansible_pkg_mgr == 'apk'
+
+
+    - name: Install OpenSSH
+      block:
+        - name: Install OpenSSH
+          package:
+            name: openssh
+            state: present
+        - name: Allow SSH to root
+          ansible.builtin.lineinfile:
+            path: /etc/ssh/sshd_config
+            insertafter: '^# Authentication:$'
+            line: 'PermitRootLogin yes'
+        - name: Enable and start OpenSSH
+          service:
+            name: sshd
+            state: restarted
+            enabled: true

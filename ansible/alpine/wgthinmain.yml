@@ -4,20 +4,27 @@
 
   tasks:
     - import_tasks: ../.templates/packages-update_cache.yml
+    - name: Update package cache - apk
+      community.general.apk:
+        upgrade: yes
+      when: ansible_pkg_mgr == 'apk'
 
-    - name: Install OpenSSH
+    - name: Install Wireguard Client
       block:
-        - name: Install OpenSSH
+        - name: Install packages for WG
           package:
-            name: openssh
+            name: "{{ item }}"
             state: present
-        - name: Allow SSH to root
-          ansible.builtin.lineinfile:
-            path: /etc/ssh/sshd_config
-            insertafter: '^# Authentication:$'
-            line: 'PermitRootLogin yes'
-        - name: Enable and start OpenSSH
+          loop:
+            - wireguard-tools
+            - iptables
+        - name: Copy wg conf file
+          copy:
+            src: ~/ThinMain.conf
+            dest: /etc/wireguard/wg0.conf
+            backup: yes
+        - name: Enable and start WG
           service:
-            name: sshd
-            state: started
+            name: wg-quick.wg0
+            state: restarted
             enabled: true
