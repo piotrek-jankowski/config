@@ -1,0 +1,18 @@
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+    - import_tasks: ../.templates/packages-update_cache.yml
+
+    - name: Install OpenSSH
+      block:
+        - name: Install OpenSSH
+          package:
+            name: OpenSSH
+            state: present
+        - name: Enable and start OpenSSH
+          service:
+            name: sshd
+            state: started
+            enabled: true
