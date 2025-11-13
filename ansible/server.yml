@@ -3,4 +3,5 @@
   become: yes
 
   tasks:
+    - import_tasks: .templates/timezone.yml
     - import_tasks: .templates/docker.yml
