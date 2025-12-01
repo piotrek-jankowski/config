@@ -68,4 +68,21 @@
               community.general.flatpack:
                 name: com.mattjakeman.ExtensionManager
                 state: present
-              
+            - name: Copy install-gnome-extensions.sh script
+              copy:
+                become: false
+                src: .files/install-gnome-extensions.sh
+                dest: /tmp/
+                mode: u+x
+            - name: Install Gnome Extensions
+              command:
+                argv:
+                  - https://extensions.gnome.org/extension/3628/arcmenu/
+                  # - https://extensions.gnome.org/extension/2645/brightness-control-using-ddcutil/
+                  - https://extensions.gnome.org/extension/6325/control-monitor-brightness-and-volume-with-ddcutil/
+                  - https://extensions.gnome.org/extension/1160/dash-to-panel/
+                  - https://extensions.gnome.org/extension/1386/notification-counter/
+            - name: Disable specified Gnome Extensions
+              command: gnome-extensions disable
+                argv:
+                  - ubuntu-dock@ubuntu.com
