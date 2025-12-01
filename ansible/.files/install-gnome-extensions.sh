@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Based on Rubem Pacelli's answer onn:
+# Based on Rubem Pacelli's answer on:
 # https://askubuntu.com/questions/1404497/how-to-install-gnome-shell-extensions-in-ubuntu-22-04-lts
 
 ### GNOME extensions ###
