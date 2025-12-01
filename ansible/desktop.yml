@@ -1,0 +1,71 @@
+- hosts: localhost
+  conenction: local
+  become: yes
+
+  tasks:
+    - import_tasks: .templates/timezone.yml
+    - import_tasks: .templates/docker.yml
+
+    - name: Install packages
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - easyeffects
+        - calf-plugins
+        - ddcutil
+        - blueman
+        - gparted
+        - flatpak
+        - curl
+        - git
+        - git-lfs
+        - ncdu
+        - tree
+        - vlc
+        - dbeaver-ce
+        - freecad
+
+    - name: Install Snap packages
+      community.general.snap:
+        name: "{{ item }}"
+        state: present
+        loop:
+          - firefox
+          - chromium-browser
+          - thunderbird
+          - signal-desktop
+          - libreoffice
+
+      - name: Configure Flatpak
+        block:
+          - name: Install Flatpak
+            package:
+              name: {{ item }}
+              state: present
+            loop:
+              - flatpak
+              - gnome-software-plugin-flatpak
+          - name: Add Flathub repo
+            command: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          - name: Install Flatpak packages
+            community.general.flatpak:
+              name: {{ item }}
+              state: present
+              loop:
+                - org.virt_manager.virt-manager
+                - org.gimp.GIMP
+                - com.obsproject.Studio
+                - com.bitwarden.desktop
+                - com.discordapp.Discord
+                - com.getpostman.Postman
+                - com.github.PintaProject.Pinta
+                - org.virt_manager.virt-manager
+
+        - name: Configure Gnome Shell Extensions
+          block:
+            - name: Install Extension Manager
+              community.general.flatpack:
+                name: com.mattjakeman.ExtensionManager
+                state: present
+              
