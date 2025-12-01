@@ -16,7 +16,6 @@
         - ddcutil
         - blueman
         - gparted
-        - flatpak
         - curl
         - git
         - git-lfs
