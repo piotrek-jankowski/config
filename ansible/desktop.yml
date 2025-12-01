@@ -75,7 +75,7 @@
                 dest: /tmp/
                 mode: u+x
             - name: Install Gnome Extensions
-              command:
+              command: /tmp/install-gnome-extensions.sh
                 argv:
                   - https://extensions.gnome.org/extension/3628/arcmenu/
                   # - https://extensions.gnome.org/extension/2645/brightness-control-using-ddcutil/
