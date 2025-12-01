@@ -86,11 +86,11 @@
               command: gnome-extensions disable
                 argv:
                   - ubuntu-dock@ubuntu.com
-          - name: Install VS Code
-            block:
-              - name: Install the apt repository and signing key
-                command: 'echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections'
-              - name: Install VS Code
-                package:
-                 name: code
-                 state: present
+        - name: Install VS Code
+          block:
+            - name: Install the apt repository and signing key
+              command: 'echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections'
+            - name: Install VS Code
+              package:
+               name: code
+               state: present
