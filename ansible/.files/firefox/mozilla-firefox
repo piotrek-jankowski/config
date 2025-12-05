@@ -1,3 +1,6 @@
+# /etc/apt/preferences.d/mozilla-firefox
+# -rw-r--r-- 1 root root
+
 Package: *
 Pin: release o=LP-PPA-mozillateam
 Pin-Priority: 1001
@@ -5,6 +8,3 @@ Pin-Priority: 1001
 Package: firefox
 Pin: version 1:1snap*
 Pin-Priority: -1
-' | sudo tee /etc/apt/preferences.d/mozilla-firefox
-
--rw-r--r-- 1 root root
