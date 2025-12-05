@@ -30,7 +30,6 @@
         name: "{{ item }}"
         state: present
         loop:
-          - firefox
           - chromium-browser
           - thunderbird
           - signal-desktop
@@ -61,6 +60,31 @@
                 - org.audacityteam.Audacity
                 - com.github.PintaProject.Pinta
                 - org.virt_manager.virt-manager
+        
+        - name: Configure Mozilla Firefox
+          block:
+            - name: Uninstall Snap Firefox
+              community.general.snap:
+                name: firefox
+                state: absent
+            - name: Prefer apt over snap Firefox version
+              copy:
+                src: .files/firefox/mozilla-firefox
+                dest: /etc/apt/preferences.d/
+                mode: 644
+            - name: Install Firefox apt package
+              package:
+                name: firefox
+                state: present
+            - name: Create config file with flags for HW Video Decoding
+              copy:
+                src: .files/firefox/mozilla.cfg
+                dest: /usr/lib/firefox/
+                mode: 644
+            - name: Make Firefox flags config file to be executed by default
+              copy: .files/firefox/local-settings.js
+                dest: /usr/lib/firefox/defaults/pref/
+                mode: 644
 
         - name: Configure Gnome Shell Extensions
           block:
