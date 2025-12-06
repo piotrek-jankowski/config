@@ -43,7 +43,7 @@
           loop:
             - libvirt
             - kvm
-        - name: Restart VMM libvirtd service
+        - name: Restart and disable VMM libvirtd service
           service:
             name: libvirtd
             enabled: false
