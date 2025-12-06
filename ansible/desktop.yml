@@ -101,16 +101,18 @@
             dest: /tmp/
             mode: u+x
         - name: Install Gnome Extensions
-          command: /tmp/install-gnome-extensions.sh
+          command:
             argv:
+              - /tmp/install-gnome-extensions.sh
               - https://extensions.gnome.org/extension/3628/arcmenu/
               # - https://extensions.gnome.org/extension/2645/brightness-control-using-ddcutil/
               - https://extensions.gnome.org/extension/6325/control-monitor-brightness-and-volume-with-ddcutil/
               - https://extensions.gnome.org/extension/1160/dash-to-panel/
               - https://extensions.gnome.org/extension/1386/notification-counter/
         - name: Disable specified Gnome Extensions
-          command: gnome-extensions disable
+          command:
             argv:
+              - gnome-extensions disable
               - ubuntu-dock@ubuntu.com
               
     - name: Install VS Code
