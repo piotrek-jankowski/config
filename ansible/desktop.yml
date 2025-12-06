@@ -72,10 +72,11 @@
             src: .files/firefox/mozilla-firefox
             dest: /etc/apt/preferences.d/
             mode: 644
-        - name: Add MozillaTeam PPA
-          apt_repository:
+        - name: Add MozillaTeam PPA automatically
+          ansible.builtin.apt_repository:
             repo: "ppa:mozillateam/ppa"
             state: present
+            filename: mozillateam
             update_cache: yes
         - name: Install Firefox apt package
           package:
