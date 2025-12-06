@@ -82,7 +82,8 @@
             dest: /usr/lib/firefox/
             mode: 644
         - name: Make Firefox flags config file to be executed by default
-          copy: .files/firefox/local-settings.js
+          copy:
+            src: .files/firefox/local-settings.js
             dest: /usr/lib/firefox/defaults/pref/
             mode: 644
       tag: firefox
