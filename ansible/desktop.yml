@@ -24,6 +24,30 @@
         - vlc
         - dbeaver-ce
 
+    - name: Configure Virtual Machine Manager
+      block:
+        - name: Install VMM packages
+          package:
+            name: "{{ item }}"
+            state: present
+          loop:
+            - qemu-kvm 
+            - libvirt-daemon-system 
+            - libvirt-clients
+            - virt-manager
+        - name: Add user to VMM groups
+          user:
+            name: "{{ ansible_env.SUDO_USER }}"
+            groups: "{{ item }}"
+            append: yes
+          loop:
+            - libvirt
+            - kvm
+        - name: Restart VMM libvirtd service
+          service:
+            name: libvirtd
+            state: restarted
+
     - name: Install 8700k only packages
       package:
         name: freecad
@@ -141,3 +165,4 @@
           package:
            name: code
            state: present
+
