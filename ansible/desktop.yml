@@ -24,7 +24,7 @@
         - vlc
         - dbeaver-ce
 
-    - name: Install packages
+    - name: Install 8700k only packages
       package:
         name: freecad
         state: present
@@ -55,16 +55,16 @@
           community.general.flatpak:
             name: "{{ item }}"
             state: present
-            loop:
-              - org.virt_manager.virt-manager
-              - org.gimp.GIMP
-              - com.obsproject.Studio
-              - com.bitwarden.desktop
-              - com.discordapp.Discord
-              - com.getpostman.Postman
-              - org.audacityteam.Audacity
-              - com.github.PintaProject.Pinta
-              - org.virt_manager.virt-manager
+          loop:
+            - org.virt_manager.virt-manager
+            - org.gimp.GIMP
+            - com.obsproject.Studio
+            - com.bitwarden.desktop
+            - com.discordapp.Discord
+            - com.getpostman.Postman
+            - org.audacityteam.Audacity
+            - com.github.PintaProject.Pinta
+            - org.virt_manager.virt-manager
         
     - name: Configure Mozilla Firefox
       block:
