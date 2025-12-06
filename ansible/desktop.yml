@@ -15,6 +15,7 @@
         - calf-plugins
         - ddcutil
         - blueman
+        - gnome-software
         - gparted
         - lm-sensors
         - curl
@@ -156,6 +157,15 @@
               - gnome-extensions
               - disable
               - ubuntu-dock@ubuntu.com
+
+    - name: Enable week numbers in GNOME Taskbar calendar
+      shell: |
+        if [ "$(gsettings get org.gnome.desktop.calendar show-weekdate)" != "true" ]; then
+            gsettings set org.gnome.desktop.calendar show-weekdate true
+        fi
+      args:
+        executable: /bin/bash
+
               
     - name: Install VS Code
       block:
