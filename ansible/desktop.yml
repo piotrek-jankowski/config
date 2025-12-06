@@ -1,5 +1,5 @@
 - hosts: localhost
-  conenction: local
+  connection: local
   become: yes
 
   tasks:
