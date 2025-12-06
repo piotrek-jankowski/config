@@ -47,6 +47,10 @@
           service:
             name: libvirtd
             state: restarted
+        - name: Disable VMM libvirtd service
+          service:
+            name: libvirtd
+            state: disabled
 
     - name: Install 8700k only packages
       package:
