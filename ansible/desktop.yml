@@ -16,6 +16,7 @@
         - ddcutil
         - blueman
         - gparted
+        - lm-sensors
         - curl
         - git
         - git-lfs
