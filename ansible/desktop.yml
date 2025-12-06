@@ -37,8 +37,9 @@
       loop:
         - chromium
         - thunderbird
-        - signal-desktop
+        - bitwarden
         - libreoffice
+        - signal-desktop
 
     - name: Configure Flatpak
       block:
@@ -59,7 +60,6 @@
             - org.virt_manager.virt-manager
             - org.gimp.GIMP
             - com.obsproject.Studio
-            - com.bitwarden.desktop
             - com.discordapp.Discord
             - com.getpostman.Postman
             - org.audacityteam.Audacity
@@ -112,8 +112,8 @@
             name: com.mattjakeman.ExtensionManager
             state: present
         - name: Copy install-gnome-extensions.sh script
+          become: false
           copy:
-            become: false
             src: .files/install-gnome-extensions.sh
             dest: /tmp/
             mode: u+x
@@ -129,7 +129,8 @@
         - name: Disable specified Gnome Extensions
           command:
             argv:
-              - gnome-extensions disable
+              - gnome-extensions
+              - disable
               - ubuntu-dock@ubuntu.com
               
     - name: Install VS Code
