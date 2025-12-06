@@ -85,6 +85,7 @@
           copy: .files/firefox/local-settings.js
             dest: /usr/lib/firefox/defaults/pref/
             mode: 644
+      tag: firefox
 
     - name: Configure Gnome Shell Extensions
       block:
