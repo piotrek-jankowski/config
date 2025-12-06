@@ -48,7 +48,7 @@
           command: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
         - name: Install Flatpak packages
           community.general.flatpak:
-            name: {{ item }}
+            name: "{{ item }}"
             state: present
             loop:
               - org.virt_manager.virt-manager
