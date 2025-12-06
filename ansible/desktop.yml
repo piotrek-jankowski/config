@@ -81,14 +81,12 @@
             state: present
           loop:
             - org.chromium.Chromium
-            - org.virt_manager.virt-manager
             - org.gimp.GIMP
             - com.obsproject.Studio
             - com.discordapp.Discord
             - com.getpostman.Postman
             - org.audacityteam.Audacity
             - com.github.PintaProject.Pinta
-            - org.virt_manager.virt-manager
         
     - name: Configure Mozilla Firefox
       block:
