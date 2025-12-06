@@ -63,31 +63,42 @@
         
     - name: Configure Mozilla Firefox
       block:
-        - name: Uninstall Snap Firefox
-          community.general.snap:
-            name: firefox
-            state: absent
-        - name: Prefer apt over snap Firefox version
-          copy:
-            src: .files/firefox/mozilla-firefox
-            dest: /etc/apt/preferences.d/
-            mode: 644
-        - name: Add MozillaTeam PPA
-          command: 'add-apt-repository ppa:mozillateam/ppa'
-        - name: Install Firefox apt package
-          package:
-            name: firefox
-            state: present
-        - name: Create config file with flags for HW Video Decoding
-          copy:
-            src: .files/firefox/mozilla.cfg
-            dest: /usr/lib/firefox/
-            mode: 644
-        - name: Make Firefox flags config file to be executed by default
-          copy:
-            src: .files/firefox/local-settings.js
-            dest: /usr/lib/firefox/defaults/pref/
-            mode: 644
+        - name: Configure Mozilla Firefox - 8700k
+          block:
+            - name: Uninstall Snap Firefox
+              community.general.snap:
+                name: firefox
+                state: absent
+            - name: Prefer apt over snap Firefox version
+              copy:
+                src: .files/firefox/mozilla-firefox
+                dest: /etc/apt/preferences.d/
+                mode: 644
+            - name: Add MozillaTeam PPA
+              command: 'add-apt-repository ppa:mozillateam/ppa'
+            - name: Install Firefox apt package
+              package:
+                name: firefox
+                state: present
+            - name: Create config file with flags for HW Video Decoding
+              copy:
+                src: .files/firefox/mozilla.cfg
+                dest: /usr/lib/firefox/
+                mode: 644
+            - name: Make Firefox flags config file to be executed by default
+              copy:
+                src: .files/firefox/local-settings.js
+                dest: /usr/lib/firefox/defaults/pref/
+                mode: 644
+          when: inventory_hostname == 8700k
+        - name: Configure Mozilla Firefox - 5420
+          block:
+            - name: Install Snap packages
+              community.general.snap:
+                name: firefox
+                state: present
+          when: inventory_hostname == 5420
+
       tags: firefox
 
     - name: Configure Gnome Shell Extensions
