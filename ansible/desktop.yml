@@ -35,86 +35,87 @@
           - signal-desktop
           - libreoffice
 
-      - name: Configure Flatpak
-        block:
-          - name: Install Flatpak
-            package:
-              name: {{ item }}
-              state: present
+    - name: Configure Flatpak
+      block:
+        - name: Install Flatpak
+          package:
+            name: {{ item }}
+            state: present
+          loop:
+            - flatpak
+            - gnome-software-plugin-flatpak
+        - name: Add Flathub repo
+          command: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+        - name: Install Flatpak packages
+          community.general.flatpak:
+            name: {{ item }}
+            state: present
             loop:
-              - flatpak
-              - gnome-software-plugin-flatpak
-          - name: Add Flathub repo
-            command: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-          - name: Install Flatpak packages
-            community.general.flatpak:
-              name: {{ item }}
-              state: present
-              loop:
-                - org.virt_manager.virt-manager
-                - org.gimp.GIMP
-                - com.obsproject.Studio
-                - com.bitwarden.desktop
-                - com.discordapp.Discord
-                - com.getpostman.Postman
-                - org.audacityteam.Audacity
-                - com.github.PintaProject.Pinta
-                - org.virt_manager.virt-manager
+              - org.virt_manager.virt-manager
+              - org.gimp.GIMP
+              - com.obsproject.Studio
+              - com.bitwarden.desktop
+              - com.discordapp.Discord
+              - com.getpostman.Postman
+              - org.audacityteam.Audacity
+              - com.github.PintaProject.Pinta
+              - org.virt_manager.virt-manager
         
-        - name: Configure Mozilla Firefox
-          block:
-            - name: Uninstall Snap Firefox
-              community.general.snap:
-                name: firefox
-                state: absent
-            - name: Prefer apt over snap Firefox version
-              copy:
-                src: .files/firefox/mozilla-firefox
-                dest: /etc/apt/preferences.d/
-                mode: 644
-            - name: Install Firefox apt package
-              package:
-                name: firefox
-                state: present
-            - name: Create config file with flags for HW Video Decoding
-              copy:
-                src: .files/firefox/mozilla.cfg
-                dest: /usr/lib/firefox/
-                mode: 644
-            - name: Make Firefox flags config file to be executed by default
-              copy: .files/firefox/local-settings.js
-                dest: /usr/lib/firefox/defaults/pref/
-                mode: 644
+    - name: Configure Mozilla Firefox
+      block:
+        - name: Uninstall Snap Firefox
+          community.general.snap:
+            name: firefox
+            state: absent
+        - name: Prefer apt over snap Firefox version
+          copy:
+            src: .files/firefox/mozilla-firefox
+            dest: /etc/apt/preferences.d/
+            mode: 644
+        - name: Install Firefox apt package
+          package:
+            name: firefox
+            state: present
+        - name: Create config file with flags for HW Video Decoding
+          copy:
+            src: .files/firefox/mozilla.cfg
+            dest: /usr/lib/firefox/
+            mode: 644
+        - name: Make Firefox flags config file to be executed by default
+          copy: .files/firefox/local-settings.js
+            dest: /usr/lib/firefox/defaults/pref/
+            mode: 644
 
-        - name: Configure Gnome Shell Extensions
-          block:
-            - name: Install Extension Manager
-              community.general.flatpack:
-                name: com.mattjakeman.ExtensionManager
-                state: present
-            - name: Copy install-gnome-extensions.sh script
-              copy:
-                become: false
-                src: .files/install-gnome-extensions.sh
-                dest: /tmp/
-                mode: u+x
-            - name: Install Gnome Extensions
-              command: /tmp/install-gnome-extensions.sh
-                argv:
-                  - https://extensions.gnome.org/extension/3628/arcmenu/
-                  # - https://extensions.gnome.org/extension/2645/brightness-control-using-ddcutil/
-                  - https://extensions.gnome.org/extension/6325/control-monitor-brightness-and-volume-with-ddcutil/
-                  - https://extensions.gnome.org/extension/1160/dash-to-panel/
-                  - https://extensions.gnome.org/extension/1386/notification-counter/
-            - name: Disable specified Gnome Extensions
-              command: gnome-extensions disable
-                argv:
-                  - ubuntu-dock@ubuntu.com
+    - name: Configure Gnome Shell Extensions
+      block:
+        - name: Install Extension Manager
+          community.general.flatpack:
+            name: com.mattjakeman.ExtensionManager
+            state: present
+        - name: Copy install-gnome-extensions.sh script
+          copy:
+            become: false
+            src: .files/install-gnome-extensions.sh
+            dest: /tmp/
+            mode: u+x
+        - name: Install Gnome Extensions
+          command: /tmp/install-gnome-extensions.sh
+            argv:
+              - https://extensions.gnome.org/extension/3628/arcmenu/
+              # - https://extensions.gnome.org/extension/2645/brightness-control-using-ddcutil/
+              - https://extensions.gnome.org/extension/6325/control-monitor-brightness-and-volume-with-ddcutil/
+              - https://extensions.gnome.org/extension/1160/dash-to-panel/
+              - https://extensions.gnome.org/extension/1386/notification-counter/
+        - name: Disable specified Gnome Extensions
+          command: gnome-extensions disable
+            argv:
+              - ubuntu-dock@ubuntu.com
+              
+    - name: Install VS Code
+      block:
+        - name: Install the apt repository and signing key
+          command: 'echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections'
         - name: Install VS Code
-          block:
-            - name: Install the apt repository and signing key
-              command: 'echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections'
-            - name: Install VS Code
-              package:
-               name: code
-               state: present
+          package:
+           name: code
+           state: present
