@@ -91,7 +91,7 @@
     - name: Configure Gnome Shell Extensions
       block:
         - name: Install Extension Manager
-          community.general.flatpack:
+          community.general.flatpak:
             name: com.mattjakeman.ExtensionManager
             state: present
         - name: Copy install-gnome-extensions.sh script
