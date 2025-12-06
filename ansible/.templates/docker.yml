@@ -79,3 +79,4 @@
     name: docker
     state: started
     enabled: true
+  when: inventory_hostname == "8700k"

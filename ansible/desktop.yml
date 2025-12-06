@@ -23,21 +23,22 @@
         - tree
         - vlc
         - dbeaver-ce
-        
+
     - name: Install packages
       package:
         name: freecad
         state: present
+      when: inventory_hostname == "8700k"
 
     - name: Install Snap packages
       community.general.snap:
         name: "{{ item }}"
         state: present
-        loop:
-          - chromium-browser
-          - thunderbird
-          - signal-desktop
-          - libreoffice
+      loop:
+        - chromium-browser
+        - thunderbird
+        - signal-desktop
+        - libreoffice
 
     - name: Configure Flatpak
       block:
