@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: all
   connection: local
   become: yes
 
@@ -23,7 +23,11 @@
         - tree
         - vlc
         - dbeaver-ce
-        - freecad
+        
+    - name: Install packages
+      package:
+        name: freecad
+        state: present
 
     - name: Install Snap packages
       community.general.snap:
@@ -90,15 +94,14 @@
                 src: .files/firefox/local-settings.js
                 dest: /usr/lib/firefox/defaults/pref/
                 mode: 644
-          when: inventory_hostname == 8700k
+          when: inventory_hostname == "8700k"
         - name: Configure Mozilla Firefox - 5420
           block:
-            - name: Install Snap packages
+            - name: Install Firefox Snap package
               community.general.snap:
                 name: firefox
                 state: present
-          when: inventory_hostname == 5420
-
+          when: inventory_hostname == "5420"
       tags: firefox
 
     - name: Configure Gnome Shell Extensions
