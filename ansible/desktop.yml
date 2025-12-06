@@ -39,7 +39,7 @@
       block:
         - name: Install Flatpak
           package:
-            name: {{ item }}
+            name: "{{ item }}"
             state: present
           loop:
             - flatpak
