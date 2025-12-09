@@ -17,6 +17,7 @@
         - blueman
         - gnome-software
         - gparted
+        - smartmontools
         - lm-sensors
         - curl
         - git
